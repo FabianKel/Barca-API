@@ -8,7 +8,7 @@ Derek Arreaga - 22537
 ## Tabla de Contenidos
 
 1. [Requisitos Cumplidos](#requisitos-cumplidos)
-2. [Tecnologías Utilizadas](#tecnologias-utilizadas)
+2. [Tecnologías Utilizadas](#tecnologías-utilizadas)
 3. [Estructura de Datos](#estructura-de-datos)
 4. [Características](#características)
 
