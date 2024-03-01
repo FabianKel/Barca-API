@@ -80,7 +80,7 @@ La tabla `acciones` se utiliza para registrar acciones específicas durante un p
 
 ## Características
 
-# Proyecto Nombre
+# Barca Blog
 
 Este repositorio contiene un backend simple para gestionar publicaciones de un blog, partidos de fútbol y acciones relacionadas con los partidos.
 
