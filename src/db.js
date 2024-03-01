@@ -38,9 +38,9 @@ export async function getAccion_id(id) {
 //POST
 
 //Nuevo Post
-export async function createBlogPost(title, content, partido_id) {
+export async function createBlogPost(title, content, imagen_data1, imagen_data2, partido_id) {
     try {
-        const [result] = await conn.query('INSERT INTO blog_posts (title, content, partido_id) VALUES (?, ?, ?)', [title, content, partido_id])
+        const [result] = await conn.query('INSERT INTO blog_posts (title, content, imagen_data1, imagen_data2, partido_id) VALUES (?, ?, ?, ?, ?)', [title, content, imagen_data1, imagen_data2, partido_id])
         return result;
     } catch (error) {
         console.error('Error creando post:', error);
@@ -136,7 +136,7 @@ export async function deletePost(postId) {
         throw new Error('Post no encontrado');
       }
   
-      return { message: 'Post eliminado correctamente', status: 200 };
+      return { message: 'Post eliminado correctamente', status: 204 };
     } catch (error) {
       console.error('Error al eliminar post:', error);
       throw error;
@@ -152,7 +152,7 @@ export async function deletePartido(partidoId) {
         throw new Error('Partido no encontrado');
       }
   
-      return { message: 'Partido eliminado correctamente', status: 200 };
+      return { message: 'Partido eliminado correctamente', status: 204 };
     } catch (error) {
       console.error('Error al eliminar partido:', error);
       throw error;
@@ -167,7 +167,7 @@ export async function deleteAccion(accionId) {
         throw new Error('Accion no encontrade');
       }
       
-      return { message: 'Acción eliminade correctemente', status: 200 };
+      return { message: 'Acción eliminade correctemente', status: 204 };
     } catch (error) {
       console.error('Error al eliminar acción:', error);
       throw error;

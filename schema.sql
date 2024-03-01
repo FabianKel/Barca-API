@@ -2,6 +2,8 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
+    imagen_data1 TEXT,
+    imagen_data2 TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     partido_id INT NOT NULL
 );

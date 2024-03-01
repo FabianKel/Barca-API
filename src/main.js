@@ -4,8 +4,9 @@ import { getAllPosts, getAllPartidos, getAllAcciones, getPost_id, getPartido_id,
 const app = express();
 const port = 3000;
 
-// Middleware for JSON parsing
+// Middleware para JSON parsing
 app.use(express.json());
+
 
 //END POINTS
 
@@ -14,8 +15,16 @@ app.use(express.json());
 //blog_posts
 app.post('/posts', async (req, res) => {
   try {
-      const { title, content, partido_id } = req.body;
-      const resultado = await createBlogPost(title, content, partido_id);
+      const { title, content, partido_id , imagen_data1, imagen_data2} = req.body;
+      if (!title || !content ||!imagen_data1 || !partido_id){
+        return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
+      }
+
+      //Las imagen_data son opcionales:
+      const imagen1 = imagen_data1 || null
+      const imagen2 = imagen_data2 || null
+
+      const resultado = await createBlogPost(title, content, imagen1, imagen2, partido_id,);
       res.status(200).json(resultado);
   } catch (error) {
       console.error(error);
@@ -39,6 +48,9 @@ app.post('/partidos', async (req, res) => {
 app.post('/acciones', async (req, res) => {
   try {
       const { partido_id, accion, minuto, autor } = req.body;
+      if (!partido_id || !accion || !minuto || !autor){
+        return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
+      }
       const resultado = await createAccion(partido_id, accion, minuto, autor);
       res.status(200).json(resultado);
   } catch (error) {
@@ -154,6 +166,11 @@ app.put('/partidos/:partido_id', async (req, res) => {
   try {
     const partido_id = req.params.partido_id;
     const newData = req.body;  
+
+    if (Object.keys(newData).length === 0) {
+      return res.status(400).json({ error: 'Bad Request: No hay datos para actualizar o formato incorrecto' });
+    }
+
     const resultado = await updatePartido(partido_id, newData);
 
     res.status(200).json(resultado);
@@ -185,7 +202,7 @@ app.delete('/posts/:post_id', async (req, res) => {
 
     const resultado = await deletePost(post_id);
 
-    res.status(200).json(resultado);
+    res.status(204).json(resultado);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al eliminar post', details: error.message });
@@ -199,26 +216,56 @@ app.delete('/partidos/:partidoId', async (req, res) => {
 
     const resultado = await deletePartido(partidoId);
 
-    res.status(200).json(resultado);
+    res.status(204).json(resultado);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al eliminar partido', details: error.message });
   }
 });
 
-//Accione
+//Acciones
 app.delete('/acciones/:accion_id', async (req, res) => {
   try {
     const accion_id = req.params.accion_id;
 
     const resultado = await deleteAccion(accion_id);
 
-    res.status(200).json(resultado);
+    res.status(204).json(resultado);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al eliminar acción', details: error.message });
   }
 });
+
+//GESTOR DE ERRORES
+
+//Métodos no implementados para cada tabla
+//tabla blog_posts
+app.all('/posts', (req, res) => {
+  const supportedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+  if (!supportedMethods.includes(req.method)) {
+  return res.status(501).send('(501): Método no implementado');
+  }
+});
+//tabla partidos
+app.all('/partidos', (req, res) => {
+  const supportedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+  if (!supportedMethods.includes(req.method)) {
+  return res.status(501).send('(501): Método no implementado');
+  }
+});
+//tabla acciones
+app.all('/acciones', (req, res) => {
+  const supportedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+  if (!supportedMethods.includes(req.method)) {
+  return res.status(501).send('(501): Método no implementado');
+  }
+});
+
+app.use('', (req, res) => {
+  res.status(400).send('Bad Request(400): Endpoint no existente o Formato incorrecto en el cuerpo de la solicitud');
+});
+
 
 
 app.listen(port, () => {
