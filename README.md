@@ -7,7 +7,7 @@ Derek Arreaga - 22537
 
 1. [Requisitos Cumplidos](#requisitos_cumplidos)
 2. [Tecnologías Utilizadas](#tecnologias)
-3. [Estructura de Datos](#estructura)
+3. [Estructura de Datos](#estructura_de_datos)
 4. [Características](#características)
 
 ## Requisitos Cumplidos
