@@ -2,8 +2,9 @@
 
 Sistemas y Tecnologías Web
 Derek Arreaga - 22537
-![logo1](https://github.com/FabianKel/lab6-web/assets/86095196/72d0cd41-4660-45e8-8b34-aa8793addeff)
-
+<p align="center">
+  <img src="https://github.com/FabianKel/lab6-web/assets/86095196/72d0cd41-4660-45e8-8b34-aa8793addeff" alt="logo1">
+</p>
 
 ## Tabla de Contenidos
 
