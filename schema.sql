@@ -3,16 +3,14 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    --Resultados--
-    partido_id INT
+    partido_id INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS partidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fecha VARCHAR(255) NOT NULL,
-    contrincante TEXT NOT NULL,
+    nombre_otro TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    --Resultados--
     marcador_barca INT NOT NULL,
     marcador_otro INT NOT NULL
 );
@@ -22,5 +20,5 @@ CREATE TABLE IF NOT EXISTS acciones (
     partido_id INT,
     accion VARCHAR(255) NOT NULL,
     minuto TEXT,
-    autor VARCHAR(255) NOT NULL,
+    autor VARCHAR(255) NOT NULL
 );
