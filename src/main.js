@@ -1,14 +1,51 @@
 import express from "express";
-import { getAllPosts, getAllPartidos, getAllAcciones, getPost_id, getPartido_id, getAccion_id, createBlogPost, createPartido, createAccion, updatePost, updatePartido, updateAccion, deletePost, deletePartido, deleteAccion } from "./db.js";
+import cors from 'cors';
+import { getAllMatches, getAllCompetencias, getAllPosts, getAllPartidos, getAllAcciones, getAllEquipos, getPost_id, getPartido_id, getAccion_id, getEquipo_id,  createBlogPost, createPartido, createAccion, createEquipo, updatePost, updatePartido, updateAccion, updateEquipo, deletePost, deletePartido, deleteAccion, deleteEquipo} from "./db.js";
+
+import {getUser} from './db.js'
+import { generateToken, validateToken } from "../jwt.js";
 
 const app = express();
 const port = 3000;
 
+
+app.use(cors());
 // Middleware para JSON parsing
 app.use(express.json());
 
 
 //END POINTS
+
+
+//LOGIN
+
+app.get('/',  (req, res) =>{
+  res.send('Blog Login 🔏')
+  }
+)
+
+app.post( '/login' ,async ( req ,res )=> {
+    const [username, password] = [req.body.username,  req.body.password];
+
+    console.log(username);
+    console.log(password);
+
+    const user = await getUser(username, password);
+
+    console.log(user);
+
+    if (user){
+      const token = generateToken(user);
+      res.status(200);
+      res.json({"success":true, access_token:token});
+      return;
+    }
+
+    res.status(401)
+    res.json({"success": false});
+});
+
+
 
 //POST
 
@@ -35,8 +72,8 @@ app.post('/posts', async (req, res) => {
 //partido
 app.post('/partidos', async (req, res) => {
   try {
-      const { fecha, nombre_otro, marcador_barca, marcador_otro } = req.body;
-      const resultado = await createPartido(fecha, nombre_otro, marcador_barca, marcador_otro);
+      const { fecha, jornada, local_id, visit_id, marcador_local, marcador_visit} = req.body;
+      const resultado = await createPartido(fecha, jornada, local_id, visit_id, marcador_local, marcador_visit);
       res.status(200).json(resultado);
   } catch (error) {
       console.error(error);
@@ -47,8 +84,8 @@ app.post('/partidos', async (req, res) => {
 //acciones
 app.post('/acciones', async (req, res) => {
   try {
-      const { partido_id, accion, minuto, autor } = req.body;
-      if (!partido_id || !accion || !minuto || !autor){
+      const { partido_id, equipo_id, accion, minuto, autor } = req.body;
+      if (!partido_id || !equipo_id ||!accion || !minuto || !autor){
         return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
       }
       const resultado = await createAccion(partido_id, accion, minuto, autor);
@@ -59,7 +96,66 @@ app.post('/acciones', async (req, res) => {
   }
 });
 
+//equipos
+app.post('/equipos', async (req, res) => {
+  try {
+      const {nombre, logoIMG, NombreEstadio } = req.body;
+      if (!nombre || !logoIMG || !NombreEstadio){
+        return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
+      }
+      const resultado = await createEquipo(nombre, logoIMG, NombreEstadio);
+      res.status(200).json(resultado);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al crear equipo', details: error.message });
+  }
+});
+
 //GET
+
+/*Para pantallas en específico*/
+
+/*---------------------------*/
+/*--------Matches------------*/
+
+app.get('/matches', async (req, res) => {
+  try {
+    const matches = await getAllMatches();
+    res.json(matches);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener partidos' });
+  }
+});
+
+/*---------Acciones----------*/
+
+app.get('/acciones', async (req, res) => {
+  try {
+    const acciones = await getAllAcciones();
+    res.json(acciones);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener acciones' });
+  }
+});
+/*--------Competencias-------*/
+
+app.get('/competencias', async (req, res) => {
+  try {
+    const competencias = await getAllCompetencias();
+    res.json(competencias);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener competencias' });
+  }
+});
+
+/*---------------------------*/
+
+
+
+
 //blog_posts
 app.get('/posts', async (req, res) => {
   try {
@@ -82,14 +178,15 @@ app.get('/partidos', async (req, res) => {
   }
 });
 
-//Acciones
-app.get('/acciones', async (req, res) => {
+
+//Equipos
+app.get('/equipos', async (req, res) => {
   try {
-    const acciones = await getAllAcciones();
-    res.json(acciones);
+    const equipos = await getAllEquipos();
+    res.json(equipos);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al obtener acciones' });
+    res.status(500).json({ error: 'Error al obtener equipos' });
   }
 });
 
@@ -145,6 +242,22 @@ app.get('/acciones/:accion_id', async (req, res) => {
   }
 });
 
+//equipos
+app.get('/equipos/:equipo_id', async (req, res) => {
+  try {
+    const equipo_id = req.params.equipo_id;
+    const equipo = await getEquipo_id(equipo_id);
+    
+    if (!equipo) {
+      res.status(404).json({ error: 'Equipo no encontrado' });
+    } else {
+      res.json(equipo);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener el Equipo' });
+  }
+});
 
 //PUT
 //blog_posts
@@ -194,6 +307,20 @@ app.put('/acciones/:accion_id', async (req, res) => {
   }
 });
 
+//Equipos
+app.put('/equipos/:equipo_id', async (req, res) => {
+  try {
+    const equipo_id = req.params.equipo_id;
+    const newData = req.body;  
+    const resultado = await updateEquipo(equipo_id, newData);
+
+    res.status(200).json(resultado);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar equipo', details: error.message });
+  }
+});
+
 //DELETE
 //Post
 app.delete('/posts/:post_id', async (req, res) => {
@@ -237,6 +364,20 @@ app.delete('/acciones/:accion_id', async (req, res) => {
   }
 });
 
+//Equipos
+app.delete('/equipos/:equipo_id', async (req, res) => {
+  try {
+    const equipo_id = req.params.equipo_id;
+
+    const resultado = await deleteEquipo(equipo_id);
+
+    res.status(204).json(resultado);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al eliminar Equipo', details: error.message });
+  }
+});
+
 //GESTOR DE ERRORES
 
 //Métodos no implementados para cada tabla
@@ -256,6 +397,13 @@ app.all('/partidos', (req, res) => {
 });
 //tabla acciones
 app.all('/acciones', (req, res) => {
+  const supportedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
+  if (!supportedMethods.includes(req.method)) {
+  return res.status(501).send('(501): Método no implementado');
+  }
+});
+//tabla equipos
+app.all('/equipos', (req, res) => {
   const supportedMethods = ['GET', 'POST', 'PUT', 'DELETE'];
   if (!supportedMethods.includes(req.method)) {
   return res.status(501).send('(501): Método no implementado');

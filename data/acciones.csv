@@ -1,0 +1,149 @@
+partido_id , equipo_id, accion, minuto, autor
+2, 6, gol, 82, Pedri
+2, 6, gol, 90+4, Ferran Torres 
+3, 6, gol, 12, Gavi
+3, 6, gol, 15, Frenkie de Jong
+3, 10, gol, 26, Juan Foyth
+3, 10, gol, 40, Alexander Sørloth
+3, 10, gol, 50, Álex Baena
+3, 6, gol, 68, Ferran Torres
+3, 6, gol, 71, Robert Lewandowski
+4, 6, gol - Cabeza, 45+1, Jules Koundé
+4, 2, gol, 76, Chimy Ávila
+4, 6, gol - Penalty, 86, Robert Lewansowski
+5, 6, gol, 25, João Félix
+5, 6, gol, 32, Robert Lewandowski
+5, 6, gol - Tiro Libre, 62, Ferran Torres
+5, 6, gol, 66, Raphinha
+5, 6, gol, 81, João Cancelo
+39, 6, gol, 11, João Félix
+39, 6, gol, 19, Robert Lewandowski
+39, 6, gol - en contra, 22, Jelle Bataille
+39, 6, gol, 54, Gavi
+39, 6, gol - Cabeza, 66, João Félix
+6, 11, gol, 19, Jørgen Strand Larsen
+6, 11, gol, 76, Anastasios Douvikas
+6, 6, gol - volea, 81,  Robert Lewandowski
+6, 6, gol, 85,  Robert Lewandowski
+6, 6, gol - volea, 89, João Félix
+7, 12, gol, 8, Vedat Muriqi
+7, 6, gol, 41, Raphinha
+7, 12, gol, 45 + 3, Abdón Prats
+7, 6, gol, 75, Fermín López
+8, 6, gol - en contra, 76, Sergio Ramos
+40, 6, gol, 45+1, Ferran Torres
+9, 9, gol, 1, Bryan Zaragoza
+9, 9, gol, 29, Bryan Zaragoza
+9, 6, gol, 45+1, Lamine Yamal
+9, 6, gol, 85, Sergi Roberto
+10, 6, gol, 80, Marc Guiu
+41, 6, gol, 28, Ferran Torres
+41, 6, gol - volea, 36, Fermín López
+41, 22, gol, 62, Heorhii Sudakov
+11, 6, gol, 6, Ilkay Gündogan
+11, 14, gol, 68, Jude Bellingham
+11, 14, gol - volea, 90+2, Jude Bellingham
+12, 6, gol - cabeza, 90+2, Ronald Araújo
+42, 22, gol, 40, Danylo Sikan
+13, 15, gol, 1, Samu
+13, 6, gol - cabeza, 53, Robert Lewandowski
+13, 6, gol - Penalty, 78, Robert Lewandowski
+14, 23, gol, 39, Unai López
+14, 6, gol - en contra, 82, Florian Lejeune
+43, 21, gol, 30, Pepê 
+43, 6, gol, 32, João Cancelo
+43, 6, gol, 57, João Félix
+15, 6, gol, 28, João Félix
+16, 8, gol, 12, Artem Dovbyk
+16, 6, gol - cabeza, 19, Robert Lewandowski
+16, 8, gol, 40, Miguel Gutiérrez
+16, 8, gol, 80, Valery Fernández
+16, 6, gol,  90+2, Ilkay Gündogan
+16, 8, gol - volea, 90+5, Cristhian Stuani
+44, 23, gol, 2, Arthur Vermeeren
+44, 6, gol, 35, Ferran Torres
+44, 23, gol, 56, Vincent Janssen
+44, 6, gol - cabeza, 90+1, Marc Guiu 
+44, 23, gol, 90+2, George Ilenikhena
+17, 6, gol, 55, João Félix
+17, 18, gol, 70, Hugo Guillamón
+18, 6, gol, 33, Raphinha
+18, 15, gol, 41, Léo Baptistão
+18, 6, gol - cabeza, 60, Sergi Roberto
+18, 15, gol, 71, Edgar González
+18, 6, gol, 83, Sergi Roberto
+54, 6, gol, 6, Lamine Yamal
+54, 26, gol, 12, Julián Quiñones
+54, 6, gol, 28, Marc Guiu
+54, 26, gol, 50, Julián Quiñones
+54, 26, gol - cabeza, 82, Henry Martín
+19, 17, gol, 12, Munir El Haddadi
+19, 6, gol, 55, Ferran Torres
+19, 6, gol - Penalty, 90+3, Ilkay Gündogan
+51, 6, gol, 18, Fermín López
+51, 6, gol, 51, Raphinha
+51, 27, gol, 60, Adriá De Mesa Garrido
+51, 6, gol - Penalty, 88, Robert Lewandowski
+51, 27, gol - Penalty, 90+3, Marc Prat
+49, 6, gol, 59, Robert Lewandowski
+49, 6, gol, 90+3, Lamine Yamal
+50, 14, gol, 7, Vinícius Júnior
+50, 14, gol, 10, Vinícius Júnior 
+50, 6, gol - volea, 33, Robert Lewandowski
+50, 14, gol - Penalty, 39, Vinícius Júnior 
+50, 14, gol, 64, Rodrygo
+52, 28, gol - volea, 31, Álvaro Gómez 
+52, 6, gol, 45, Ferran Torres
+52, 6, gol, 69, Jules Koundé
+52, 6, gol, 73, Alejandro Balde
+20, 6, gol, 21, Ferran Torres
+20, 6, gol, 48, Ferran Torres
+20, 10, gol - volea, 56, Isco
+20, 10, gol - volea, 59, Isco
+20, 6, gol, 90, João Félix
+20, 6, gol, 90+2, Ferran Torres
+53, 1, gol, 1, Gorka Guruzeta 
+53, 6, gol, 26, Robert Lewandowski
+53, 6, gol, 32, Lamine Yamal
+53, 1, gol - cabeza, 49, Oihan Sancet
+53, 1, gol, 105+2, Iñaki Williams
+53, 1, gol, 120+1, Nico Williams
+21, 20, gol, 41, Gerard Moreno 
+21, 20, gol, 54, Ilias Akhomach
+21, 6, gol, 60, Ilkay Gündogan
+21, 6, gol, 68, Pedri
+21, 6, gol - en contra, 71, Eric Bailly
+21, 20, gol, 84, Goncalo Guedes
+21, 20, gol, 90+9, Alexander Sørloth
+21, 20, gol, 90+12, José Luis Morales
+22, 6, gol - cabeza, 63, Vitor Roque
+23, 6, gol, 22, Robert  Lewandowski
+23, 6, gol - volea, 49, Ilkay Gündogan
+23, 9, gol - cabeza, 51, Samu
+23, 6, gol, 63, Vitor  Roque
+24, 6, gol - volea, 14, Lamine Yamal
+24, 8, gol, 43, Ricard Sánchez
+24, 8, gol, 60, Facundo Pellistri 
+24, 6, gol, 63, Robert Lewandowski 
+24, 8, gol - cabeza, 66, Ignasi Miquel
+24, 6, gol, 80, Lamine Yamal
+45, 6, gol, 60, Robert Lewandowski
+45, 24, gol, 75, Victor Osimhen
+26, 6, gol, 20, Raphinha
+26, 6, gol, 53, João Félix
+26, 6, gol, 61, Frenkie de Jong
+26, 6, gol - volea, 90+1, Fermín López
+27, 6, gol, 73, Lamine Yamal
+46, 6, gol, 15, Fermín López
+46, 6, gol, 17, João Cancelo
+46, 24, gol, 30, Amir Rrahmani
+46, 6, gol, 83, Robert Lewandowski
+28, 6, gol, 38, João Félix
+28, 6, gol, 47, Robert Lewandowski
+28, 6, gol - cabeza, 65, Fermín López
+29, 6, gol - cabeza, 59, Raphinha
+47, 6, gol, 37, Raphinha
+47, 25, gol, 48, Ousmane Dembélé
+47, 25, gol, 50, Vitinha
+47, 6, gol - volea, 62, Raphinha
+47, 6, gol - cabeza, 77, Andreas Christensen

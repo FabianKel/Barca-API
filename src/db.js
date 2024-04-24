@@ -4,6 +4,44 @@ import conn from './conn.js'
 //END POINTS 🤠
 //GET
 
+/*Para pantallas en específico*/
+
+/*---------------------------*/
+/*--------Matches------------*/
+
+export async function  getAllMatches() {
+
+    const [rows] = await conn.query( 'SELECT p.competencia_id, p.jornada, p.fecha, e_local.Nombre AS EquipoLocal, e_local.NombreEstadio AS EstadioLocal, e_local.logoIMG AS LogoLocal, e_visit.Nombre AS EquipoVisitante, e_visit.NombreEstadio AS EstadioVisitante, e_visit.logoIMG AS LogoVisitante, p.marcador_local, p.marcador_visit FROM partidos p JOIN equipos e_local ON p.local_id = e_local.id JOIN equipos e_visit ON p.visit_id = e_visit.id JOIN competencias comp ON p.competencia_id = comp.id ORDER BY p.fecha ASC')
+
+    return rows
+}
+/*--------------------Acciones--------------------*/
+/*-Relacionadas con Partidos y Ordenadas por fecha-*/
+export async function getAllAcciones(){
+    
+    const [rows] = await conn.query('SELECT a.partido_id, a.equipo_id, a.accion, a.minuto, a.autor FROM acciones a JOIN partidos p ON a.partido_id = p.id ORDER BY p.fecha ASC;' )
+
+    return rows
+}
+/*--------Competencias-------*/
+
+export async function getAllCompetencias(){
+    
+    const [rows] = await conn.query('SELECT * FROM competencias' )
+
+    return rows
+}
+
+/*---------------------------*/
+
+//LOGIN
+export async function getUser(username, password) {
+    const [user] = await conn.query('SELECT username, email FROM user WHERE username= ? and password=? ', [username, password]) 
+    
+    return user[0]
+}
+
+//INFO
 export async function getAllPosts() {
     const [rows] = await conn.query('SELECT * FROM blog_posts') //Tabla blog_posts
     return rows
@@ -14,8 +52,8 @@ export async function getAllPartidos() {
     return rows
 }
 
-export async function getAllAcciones() {
-    const [rows] = await conn.query('SELECT * FROM acciones') //Tabla acciones
+export async function getAllEquipos() {
+    const [rows] = await conn.query('SELECT * FROM equipos') //Tabla equipos
     return rows
 }
 
@@ -35,6 +73,11 @@ export async function getAccion_id(id) {
     return rows[0];
 }
 
+export async function getEquipo_id(id) {
+    const [rows] = await conn.query('SELECT * FROM equipos WHERE id = ?',[id]) //Tabla equipos por id
+    return rows[0];
+}
+
 //POST
 
 //Nuevo Post
@@ -49,9 +92,9 @@ export async function createBlogPost(title, content, imagen_data1, imagen_data2,
 }
 
 //Nuevo Partido
-export async function createPartido(fecha, nombre_otro, marcador_barca, marcador_otro) {
+export async function createPartido(fecha, jornada, local_id, visit_id, marcador_local, marcador_visit) {
     try {
-        const [result] = await conn.query('INSERT INTO partidos (fecha, nombre_otro, marcador_barca, marcador_otro) VALUES (?, ?, ?, ?)', [fecha, nombre_otro, marcador_barca, marcador_otro]);
+        const [result] = await conn.query('INSERT INTO partidos (fecha, jornada, local_id, visit_id, marcador_local, marcador_visit) VALUES (?, ?, ?, ?, ?, ?)', [fecha, jornada, local_id, visit_id, marcador_local, marcador_visit]);
         return result;
     } catch (error) {
         console.error('Error creando partido:', error);
@@ -66,6 +109,17 @@ export async function createAccion(partido_id, accion, minuto, autor) {
         return result;
     } catch (error) {
         console.error('Error creando accion:', error);
+        throw error;
+    }
+}
+
+//Nuevo Equipo
+export async function createEquipo(nombre, logoIMG, NombreEstadio) {
+    try {
+        const [result] = await conn.query('INSERT INTO equipos (nombre, logoIMG, nombreEstadio) VALUES (?, ?, ?)', [nombre, logoIMG, NombreEstadio]);
+        return result;
+    } catch (error) {
+        console.error('Error creando equipo:', error);
         throw error;
     }
 }
@@ -107,6 +161,7 @@ export async function updatePartido(id, newData) {
         throw error;
     }
 }
+
 //Modificar Accion por ID
 export async function updateAccion(id, newData) {
     try {
@@ -121,6 +176,24 @@ export async function updateAccion(id, newData) {
         return { post: updatedAccion[0], status: 200 };
     } catch (error) {
         console.error('Error actualizando accion:', error);
+        throw error;
+    }
+}
+
+//Modificar Equipo por ID
+export async function updateEquipo(id, newData) {
+    try {
+        const [result] = await conn.query('UPDATE equipos SET ? WHERE id = ?', [newData, id]);
+
+        if (result.affectedRows === 0) {
+            throw new Error('Equipo no encontrado');
+        }
+
+        const updatedEquipo = await conn.query('SELECT * FROM equipos WHERE id = ?', [id]);
+
+        return { post: updatedEquipo[0], status: 200 };
+    } catch (error) {
+        console.error('Error actualizando Equipo:', error);
         throw error;
     }
 }
@@ -158,6 +231,7 @@ export async function deletePartido(partidoId) {
       throw error;
     }
   }
+
 //Eliminar Accion
 export async function deleteAccion(accionId) {
     try {
@@ -170,6 +244,22 @@ export async function deleteAccion(accionId) {
       return { message: 'Acción eliminade correctemente', status: 204 };
     } catch (error) {
       console.error('Error al eliminar acción:', error);
+      throw error;
+    }
+}
+
+//Eliminar Equipo
+export async function deleteEquipo(equipoId) {
+    try {
+      const [result] = await conn.query('DELETE FROM acciones WHERE id = ?', [equipoId]);
+  
+      if (result.affectedRows === 0) {
+        throw new Error('Equipo no encontrado');
+      }
+      
+      return { message: 'Equipo eliminado correctemente', status: 204 };
+    } catch (error) {
+      console.error('Error al eliminar equipo:', error);
       throw error;
     }
 }
