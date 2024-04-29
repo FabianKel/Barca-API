@@ -6,16 +6,27 @@ dotenv.config();
 const SECRET = process.env.JWT_SECRET
 
 const generateToken = (user) => {
-    return jwt.sign(user, SECRET, { expiresIn: '1h', algorithm: 'HS256'})
+    return jwt.sign(user, SECRET, { expiresIn: '10m', algorithm: 'HS256'})
 }
 
 
 const validateToken = (token) => {
     try {
-        return jwt.verify(token, SECRET)
+        const decodedToken = jwt.verify(token, SECRET);
+
+
+        return{
+            decodedToken: decodedToken
+        }
     } catch(e) {
-        console.error('Invalid token', e)
-        return false
+        if (e.name === 'TokenExpiredError') {
+            return {
+                expired: true
+            };
+        } else {
+            console.error('Invalid token', e);
+            return false;
+        }
     }
 }
 

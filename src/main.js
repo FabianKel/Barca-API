@@ -27,8 +27,8 @@ app.get('/',  (req, res) =>{
 app.post( '/login' ,async ( req ,res )=> {
     const [username, password] = [req.body.username,  req.body.password];
 
-    console.log(username);
-    console.log(password);
+    //console.log(username);
+    //console.log(password);
 
     const user = await getUser(username, password);
 
@@ -51,6 +51,9 @@ app.post( '/login' ,async ( req ,res )=> {
 
 //blog_posts
 app.post('/posts', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
       const { title, content, partido_id , imagen_data1, imagen_data2} = req.body;
       if (!title || !content ||!imagen_data1 || !partido_id){
@@ -67,22 +70,43 @@ app.post('/posts', async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Error al crear partido', details: error.message });
   }
+} else {
+  res.status(401).json({ error: 'Token de acceso inválido' });
+}
 });
 
 //partido
 app.post('/partidos', async (req, res) => {
-  try {
-      const { fecha, jornada, local_id, visit_id, marcador_local, marcador_visit} = req.body;
-      const resultado = await createPartido(fecha, jornada, local_id, visit_id, marcador_local, marcador_visit);
-      res.status(200).json(resultado);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al crear partido', details: error.message });
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  const tokenData = validateToken(access_token);
+  
+  if (tokenData) {
+    const { expired } = tokenData;
+    
+    if (expired) {
+      res.status(401).json({ error: 'Token de acceso vencido' });
+    } else {
+      try {
+        const { fecha, competencia_id, jornada, local_id, visit_id, marcador_local, marcador_visit} = req.body;
+        const resultado = await createPartido(fecha, competencia_id, jornada, local_id, visit_id, marcador_local, marcador_visit);
+        res.status(200).json(resultado);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al crear partido', details: error.message });
+      }
+    }
+  } else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
   }
 });
 
+
 //acciones
 app.post('/acciones', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
       const { partido_id, equipo_id, accion, minuto, autor } = req.body;
       if (!partido_id || !equipo_id ||!accion || !minuto || !autor){
@@ -94,10 +118,16 @@ app.post('/acciones', async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Error al crear acción', details: error.message });
   }
+} else {
+  res.status(401).json({ error: 'Token de acceso inválido' });
+}
 });
 
 //equipos
 app.post('/equipos', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
       const {nombre, logoIMG, NombreEstadio } = req.body;
       if (!nombre || !logoIMG || !NombreEstadio){
@@ -109,6 +139,9 @@ app.post('/equipos', async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Error al crear equipo', details: error.message });
   }
+} else {
+  res.status(401).json({ error: 'Token de acceso inválido' });
+}
 });
 
 //GET
@@ -262,20 +295,29 @@ app.get('/equipos/:equipo_id', async (req, res) => {
 //PUT
 //blog_posts
 app.put('/posts/:post_id', async (req, res) => {
-  try {
-    const post_id = req.params.post_id;
-    const newData = req.body;  
-    const resultado = await updatePost(post_id, newData);
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
+    try {
+      const post_id = req.params.post_id;
+      const newData = req.body;  
+      const resultado = await updatePost(post_id, newData);
 
-    res.status(200).json(resultado);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al actualizar post', details: error.message });
+      res.status(200).json(resultado);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al actualizar post', details: error.message });
+    }
+  } else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
   }
 });
 
 //Partidos
 app.put('/partidos/:partido_id', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
     const partido_id = req.params.partido_id;
     const newData = req.body;  
@@ -291,10 +333,16 @@ app.put('/partidos/:partido_id', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Error al actualizar partido', details: error.message });
   }
+} else {
+  res.status(401).json({ error: 'Token de acceso inválido' });
+}
 });
 
 //Acciones
 app.put('/acciones/:accion_id', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
     const accion_id = req.params.accion_id;
     const newData = req.body;  
@@ -305,10 +353,16 @@ app.put('/acciones/:accion_id', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Error al actualizar acción', details: error.message });
   }
+} else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
+  }
 });
 
 //Equipos
 app.put('/equipos/:equipo_id', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
     const equipo_id = req.params.equipo_id;
     const newData = req.body;  
@@ -319,53 +373,79 @@ app.put('/equipos/:equipo_id', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Error al actualizar equipo', details: error.message });
   }
+} else {
+  res.status(401).json({ error: 'Token de acceso inválido' });
+}
 });
 
 //DELETE
 //Post
 app.delete('/posts/:post_id', async (req, res) => {
-  try {
-    const post_id = req.params.post_id;
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
 
-    const resultado = await deletePost(post_id);
+  if (validateToken(access_token)){
+      try {
+          const post_id = req.params.post_id;
+          const resultado = await deletePost(post_id);
+          res.status(204).json(resultado,  "Se ha eliminado el post correctamente");
 
-    res.status(204).json(resultado);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al eliminar post', details: error.message });
+      } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Error al eliminar post', details: error.message });
+      }
+  } else {
+      res.status(401).json({ error: 'Token de acceso inválido' });
   }
-});
+}
+
+);
 
 //Partido
 app.delete('/partidos/:partidoId', async (req, res) => {
-  try {
-    const partidoId = req.params.partidoId;
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
+    try {
+      const partidoId = req.params.partidoId;
 
-    const resultado = await deletePartido(partidoId);
+      const resultado = await deletePartido(partidoId);
 
-    res.status(204).json(resultado);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al eliminar partido', details: error.message });
+      res.status(204).json(resultado);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al eliminar partido', details: error.message });
+    }
+  } else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
   }
 });
 
 //Acciones
 app.delete('/acciones/:accion_id', async (req, res) => {
-  try {
-    const accion_id = req.params.accion_id;
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
+    try {
+      const accion_id = req.params.accion_id;
 
-    const resultado = await deleteAccion(accion_id);
+      const resultado = await deleteAccion(accion_id);
 
-    res.status(204).json(resultado);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al eliminar acción', details: error.message });
+      res.status(204).json(resultado);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al eliminar acción', details: error.message });
+    }
+  }else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
   }
 });
 
 //Equipos
 app.delete('/equipos/:equipo_id', async (req, res) => {
+  const { authorization } = req.headers;
+  const access_token = authorization.substring(7);
+  if(validateToken(access_token)){
   try {
     const equipo_id = req.params.equipo_id;
 
@@ -376,6 +456,9 @@ app.delete('/equipos/:equipo_id', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Error al eliminar Equipo', details: error.message });
   }
+}else {
+  res.status(401).json({ error: 'Token de acceso inválido' });
+}
 });
 
 //GESTOR DE ERRORES

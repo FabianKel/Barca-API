@@ -92,9 +92,9 @@ export async function createBlogPost(title, content, imagen_data1, imagen_data2,
 }
 
 //Nuevo Partido
-export async function createPartido(fecha, jornada, local_id, visit_id, marcador_local, marcador_visit) {
+export async function createPartido(fecha, competencia_id, jornada, local_id, visit_id, marcador_local, marcador_visit) {
     try {
-        const [result] = await conn.query('INSERT INTO partidos (fecha, jornada, local_id, visit_id, marcador_local, marcador_visit) VALUES (?, ?, ?, ?, ?, ?)', [fecha, jornada, local_id, visit_id, marcador_local, marcador_visit]);
+        const [result] = await conn.query('INSERT INTO partidos (fecha, competencia_id, jornada, local_id, visit_id, marcador_local, marcador_visit) VALUES (?, ?, ?, ?, ?, ?, ?)', [fecha, competencia_id, jornada, local_id, visit_id, marcador_local, marcador_visit]);
         return result;
     } catch (error) {
         console.error('Error creando partido:', error);
