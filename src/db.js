@@ -11,10 +11,14 @@ import conn from './conn.js'
 
 export async function  getAllMatches() {
 
-    const [rows] = await conn.query( 'SELECT p.competencia_id, p.jornada, p.fecha, e_local.Nombre AS EquipoLocal, e_local.NombreEstadio AS EstadioLocal, e_local.logoIMG AS LogoLocal, e_visit.Nombre AS EquipoVisitante, e_visit.NombreEstadio AS EstadioVisitante, e_visit.logoIMG AS LogoVisitante, p.marcador_local, p.marcador_visit FROM partidos p JOIN equipos e_local ON p.local_id = e_local.id JOIN equipos e_visit ON p.visit_id = e_visit.id JOIN competencias comp ON p.competencia_id = comp.id ORDER BY p.fecha ASC')
+    const [rows] = await conn.query( 'SELECT p.id AS partidoID, p.local_id, p.visit_id, p.competencia_id, p.jornada, p.fecha, e_local.Nombre AS EquipoLocal, e_local.NombreEstadio AS EstadioLocal, e_local.logoIMG AS LogoLocal, e_visit.Nombre AS EquipoVisitante, e_visit.NombreEstadio AS EstadioVisitante, e_visit.logoIMG AS LogoVisitante, p.marcador_local, p.marcador_visit FROM partidos p JOIN equipos e_local ON p.local_id = e_local.id JOIN equipos e_visit ON p.visit_id = e_visit.id JOIN competencias comp ON p.competencia_id = comp.id ORDER BY p.fecha ASC')
 
     return rows
 }
+
+/*------------------------------------------------*/
+
+
 /*--------------------Acciones--------------------*/
 /*-Relacionadas con Partidos y Ordenadas por fecha-*/
 export async function getAllAcciones(){
@@ -71,6 +75,11 @@ export async function getPartido_id(id) {
 export async function getAccion_id(id) {
     const [rows] = await conn.query('SELECT * FROM acciones WHERE id = ?',[id]) //Tabla acciones por id
     return rows[0];
+}
+
+export async function getAccion_partido_id(partido_id) {
+    const [rows] = await conn.query('SELECT equipo_id, accion, minuto, autor FROM acciones WHERE partido_id = ?',[partido_id]) //Tabla acciones por id de partido
+    return rows;
 }
 
 export async function getEquipo_id(id) {

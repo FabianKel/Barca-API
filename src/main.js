@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors';
-import { getAllMatches, getAllCompetencias, getAllPosts, getAllPartidos, getAllAcciones, getAllEquipos, getPost_id, getPartido_id, getAccion_id, getEquipo_id,  createBlogPost, createPartido, createAccion, createEquipo, updatePost, updatePartido, updateAccion, updateEquipo, deletePost, deletePartido, deleteAccion, deleteEquipo} from "./db.js";
+import { getAllMatches, getAllCompetencias, getAllPosts, getAllPartidos, getAllAcciones, getAllEquipos, getPost_id, getPartido_id, getAccion_id, getAccion_partido_id, getEquipo_id,  createBlogPost, createPartido, createAccion, createEquipo, updatePost, updatePartido, updateAccion, updateEquipo, deletePost, deletePartido, deleteAccion, deleteEquipo} from "./db.js";
 
 import {getUser} from './db.js'
 import { generateToken, validateToken } from "../jwt.js";
@@ -54,25 +54,25 @@ app.post('/posts', async (req, res) => {
   const { authorization } = req.headers;
   const access_token = authorization.substring(7);
   if(validateToken(access_token)){
-  try {
-      const { title, content, partido_id , imagen_data1, imagen_data2} = req.body;
-      if (!title || !content ||!imagen_data1 || !partido_id){
-        return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
-      }
+    try {
+        const { title, content, partido_id , imagen_data1, imagen_data2} = req.body;
+        if (!title || !content ||!imagen_data1 || !partido_id){
+          return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
+        }
 
-      //Las imagen_data son opcionales:
-      const imagen1 = imagen_data1 || null
-      const imagen2 = imagen_data2 || null
+        //Las imagen_data son opcionales:
+        const imagen1 = imagen_data1 || null
+        const imagen2 = imagen_data2 || null
 
-      const resultado = await createBlogPost(title, content, imagen1, imagen2, partido_id,);
-      res.status(200).json(resultado);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al crear partido', details: error.message });
-  }
-} else {
+        const resultado = await createBlogPost(title, content, imagen1, imagen2, partido_id,);
+        res.status(200).json(resultado);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al crear partido', details: error.message });
+    }
+  } else {
   res.status(401).json({ error: 'Token de acceso inválido' });
-}
+  }
 });
 
 //partido
@@ -107,20 +107,20 @@ app.post('/acciones', async (req, res) => {
   const { authorization } = req.headers;
   const access_token = authorization.substring(7);
   if(validateToken(access_token)){
-  try {
-      const { partido_id, equipo_id, accion, minuto, autor } = req.body;
-      if (!partido_id || !equipo_id ||!accion || !minuto || !autor){
-        return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
-      }
-      const resultado = await createAccion(partido_id, accion, minuto, autor);
-      res.status(200).json(resultado);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al crear acción', details: error.message });
+    try {
+        const { partido_id, equipo_id, accion, minuto, autor } = req.body;
+        if (!partido_id || !equipo_id ||!accion || !minuto || !autor){
+          return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
+        }
+        const resultado = await createAccion(partido_id, accion, minuto, autor);
+        res.status(200).json(resultado);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al crear acción', details: error.message });
+    }
+  } else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
   }
-} else {
-  res.status(401).json({ error: 'Token de acceso inválido' });
-}
 });
 
 //equipos
@@ -128,20 +128,20 @@ app.post('/equipos', async (req, res) => {
   const { authorization } = req.headers;
   const access_token = authorization.substring(7);
   if(validateToken(access_token)){
-  try {
-      const {nombre, logoIMG, NombreEstadio } = req.body;
-      if (!nombre || !logoIMG || !NombreEstadio){
-        return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
-      }
-      const resultado = await createEquipo(nombre, logoIMG, NombreEstadio);
-      res.status(200).json(resultado);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al crear equipo', details: error.message });
+    try {
+        const {nombre, logoIMG, NombreEstadio } = req.body;
+        if (!nombre || !logoIMG || !NombreEstadio){
+          return res.status(400).json({error: 'Bad Request: Faltan Datos o formato incorrecto'});
+        }
+        const resultado = await createEquipo(nombre, logoIMG, NombreEstadio);
+        res.status(200).json(resultado);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al crear equipo', details: error.message });
+    }
+  } else {
+    res.status(401).json({ error: 'Token de acceso inválido' });
   }
-} else {
-  res.status(401).json({ error: 'Token de acceso inválido' });
-}
 });
 
 //GET
@@ -275,6 +275,26 @@ app.get('/acciones/:accion_id', async (req, res) => {
   }
 });
 
+
+
+app.get('/acciones/partido/:partido_id', async (req, res) => {
+  try {
+    const partido_id = req.params.partido_id;
+    const acciones = await getAccion_partido_id(partido_id);
+    
+    if (!acciones) {
+      res.status(404).json({ error: 'Acciones no encontrada' });
+    } else {
+      res.json(acciones);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener acciones' });
+  }
+});
+
+
+
 //equipos
 app.get('/equipos/:equipo_id', async (req, res) => {
   try {
@@ -388,7 +408,7 @@ app.delete('/posts/:post_id', async (req, res) => {
       try {
           const post_id = req.params.post_id;
           const resultado = await deletePost(post_id);
-          res.status(204).json(resultado,  "Se ha eliminado el post correctamente");
+          res.status(204).send("Se ha eliminado el post correctamente");
 
       } catch (error) {
           console.error(error);

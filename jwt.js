@@ -21,7 +21,9 @@ const validateToken = (token) => {
     } catch(e) {
         if (e.name === 'TokenExpiredError') {
             return {
-                expired: true
+                expired: true,
+                error: 'Token de acceso vencido'
+
             };
         } else {
             console.error('Invalid token', e);
