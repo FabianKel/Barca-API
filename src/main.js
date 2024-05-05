@@ -1,8 +1,9 @@
 import express from "express";
 import cors from 'cors';
+import CryptoJS from 'crypto-js';
 import { getAllMatches, getAllCompetencias, getAllPosts, getAllPartidos, getAllAcciones, getAllEquipos, getPost_id, getPartido_id, getAccion_id, getAccion_partido_id, getEquipo_id,  createBlogPost, createPartido, createAccion, createEquipo, updatePost, updatePartido, updateAccion, updateEquipo, deletePost, deletePartido, deleteAccion, deleteEquipo} from "./db.js";
 
-import {getUser} from './db.js'
+import {getUser, createUser } from './db.js'
 import { generateToken, validateToken } from "../jwt.js";
 
 const app = express();
@@ -20,7 +21,7 @@ app.use(express.json());
 //LOGIN
 
 app.get('/',  (req, res) =>{
-  res.send('Blog Login 🔏')
+  res.send('Barca Api 🔴🔵🟡')
   }
 )
 
@@ -32,8 +33,6 @@ app.post( '/login' ,async ( req ,res )=> {
 
     const user = await getUser(username, password);
 
-    console.log(user);
-
     if (user){
       const token = generateToken(user);
       res.status(200);
@@ -43,6 +42,27 @@ app.post( '/login' ,async ( req ,res )=> {
 
     res.status(401)
     res.json({"success": false});
+});
+
+function PasswordMD5Hash(data) {
+  return CryptoJS.MD5(data).toString()
+
+}
+//Register
+app.post( '/register' ,async ( req ,res )=> {
+  const [username, password, email] = [req.body.username,  req.body.password, req.body.email];
+
+  //console.log(username);
+  //console.log(password);
+  const hashedPassword = PasswordMD5Hash(password)
+
+  try {
+    const user = await createUser(username, hashedPassword, email);
+
+    res.status(200).json({ success: true, message: 'Usuario registrado correctamente.' });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 });
 
 

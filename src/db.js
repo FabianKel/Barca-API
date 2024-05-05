@@ -40,10 +40,27 @@ export async function getAllCompetencias(){
 
 //LOGIN
 export async function getUser(username, password) {
-    const [user] = await conn.query('SELECT username, email FROM user WHERE username= ? and password=? ', [username, password]) 
+    const [user] = await conn.query('SELECT username, created_at, email FROM user WHERE username= ? and password=? ', [username, password]) 
     
     return user[0]
 }
+
+//REGISTER
+export async function createUser(username, password, email) {
+    try {
+        const [result] = await conn.query('INSERT INTO user (username, password, email) VALUES (?, ?, ?)', [username, password, email])
+        return result;
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            console.error('Error creando usuario:', error);
+            throw new Error('El nombre de usuario o correo electrónico ya está en uso. Por favor, elija otro.');
+        } else {
+            console.error('Error creando usuario:', error);
+            throw new Error('Se produjo un error al crear el usuario. Por favor, inténtelo de nuevo más tarde.');
+        }
+    }
+}
+
 
 //INFO
 export async function getAllPosts() {
