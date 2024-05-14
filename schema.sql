@@ -125,7 +125,7 @@ INSERT INTO partidos (competencia_id, jornada, Fecha, local_id, visit_id, marcad
 (1, 'Jornada 32', '2024-04-21', 14, 6, 3, 2),
 (1, 'Jornada 33', '2024-04-28', 6, 19, 4, 2),
 (1, 'Jornada 34', '2024-05-05', 8, 6, 4, 2),
-(1, 'Jornada 35', '2024-05-12', 6, 15, NULL, NULL),
+(1, 'Jornada 35', '2024-05-12', 6, 15, 2, 0),
 (1, 'Jornada 36', '2024-05-15', 17, 6, NULL, NULL),
 (1, 'Jornada 37', '2024-05-19', 6, 10, NULL, NULL),
 (1, 'Jornada 38', '2024-05-26', 16, 6, NULL, NULL),
@@ -318,7 +318,9 @@ VALUES
 (33, 6, 'gol', 82, 'Robert Lewandowski'),
 (33, 6, 'gol', 90+3, 'Robert Lewandowski'),
 (33, 19, 'gol', 27, 'Hugo Duro'),
-(33, 19, 'gol - penalty', 38, 'Pepelu');
+(33, 19, 'gol - penalty', 38, 'Pepelu'),
+(34, 19, 'gol', 40, 'Lamine Yamal'),
+(34, 19, 'gol - penalty', 90+2, 'Raphinha');
 
 INSERT INTO blog_posts (title, content, imagen_data1, imagen_data2, created_at, partido_id) VALUES
 ('Agrio sabor de boca para Xavi en el primer partido', 'El pasado domingo 13 de Agosto el conjunto de Xavi empató por 0 frente al Getafe, donde Raphiha es expulsado tras golpear con el codo al rival. Ambos equipos terminan el partido con 10 hombres y 0 goles.', 'https://ssl.gstatic.com/onebox/media/sports/videos/vita/umTsp46Cq74muFCM_768x432.jpg', NULL, '2024-04-22 04:02:53', 1),
