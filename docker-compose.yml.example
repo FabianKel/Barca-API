@@ -8,6 +8,9 @@ services:
       MYSQL_USER: kelson
       MYSQL_PASSWORD: ninauser
       MYSQL_ROOT_PASSWORD: ninaroot
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      LANG: C.UTF-8
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:

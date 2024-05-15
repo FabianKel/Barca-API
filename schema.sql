@@ -136,7 +136,7 @@ INSERT INTO partidos (competencia_id, jornada, Fecha, local_id, visit_id, marcad
 (4, 'Fase de Grupos - Jornada 5', '2023-11-28', 6, 21, 2, 1),
 (4, 'Fase de Grupos - Jornada 6', '2023-12-13', 23, 6, 3, 2),
 (4, 'Octavos de Final - Ida', '2024-02-21', 6, 24, 1, 1),
-(4, 'Octavos de Final - Vuelta', '2025-12-13', 24, 6, 3, 2),
+(4, 'Octavos de Final - Vuelta', '2024-03-13', 24, 6, 1, 3),
 (4, 'Cuartos de Final - Ida', '2024-04-10', 25, 6, 2, 3),
 (4, 'Cuartos de Final - Vuelta', '2023-04-16', 6, 25, 1, 4),
 (2, 'Semifinal', '2024-01-11', 2, 6, 0, 2),
@@ -319,12 +319,13 @@ VALUES
 (33, 6, 'gol', 90+3, 'Robert Lewandowski'),
 (33, 19, 'gol', 27, 'Hugo Duro'),
 (33, 19, 'gol - penalty', 38, 'Pepelu'),
-(34, 19, 'gol', 40, 'Lamine Yamal'),
-(34, 19, 'gol - penalty', 90+2, 'Raphinha');
+(35, 6, 'gol', 40, 'Lamine Yamal'),
+(35, 6, 'gol - penalty', 90+2, 'Raphinha');
 
 INSERT INTO blog_posts (title, content, imagen_data1, imagen_data2, created_at, partido_id) VALUES
 ('Agrio sabor de boca para Xavi en el primer partido', 'El pasado domingo 13 de Agosto el conjunto de Xavi empató por 0 frente al Getafe, donde Raphiha es expulsado tras golpear con el codo al rival. Ambos equipos terminan el partido con 10 hombres y 0 goles.', 'https://ssl.gstatic.com/onebox/media/sports/videos/vita/umTsp46Cq74muFCM_768x432.jpg', NULL, '2024-04-22 04:02:53', 1),
 ('Pedri estrena la colección de goles de la temporada frente al Cadiz', 'Un Barcelona dominante ganó 2 por 0 frente al Cadiz, con la gran actuación de Pedri y un gol al último minuto de Ferrán Torres. Además logramos ver jugar al jóven Lamine Yamal como titular jugando hasta el cambió por el goleador Ferrán 🦈', 'https://img.asmedia.epimg.net/resizer/v2/HHLFJAUYSWP4AM6WLBVENBHGIE.jpg?auth=6a5783d973ce0e3f8e934a688e3f3507bc971a4bc1f6145f8c8f5ff9a884ea56&width=736&height=414&focal=1190%2C710', NULL, '2024-04-22 04:02:53', 2),
 ('Golazo de Lamine salva al Barcelona del empate', '"Lamine la mandó al ángulo salvando al Barcelona en el minuto 73\, logrando el 1-0 y salvando 2 puntos en casa.', 'https://pbs.twimg.com/media/GILlstWXIAAREnE?format=jpg&name=medium', NULL, '2024-04-22 04:02:53', 28),
 ('Lewandowski despierta en el tramo final de La Liga', '"Hack-Trick de Robert Lewandowski ""salva"" al Barcelona de los terribles errores de Ter Steguen y Ronald Araujo en el primer tiempo, donde el primero cedió un gol por un mal pase y el segundo cometió una falta que les costó un penalti para su 1-2. Además de Lewandowski, Fermín López fue otro que convirtió para el Barcelona"', 'https://ichef.bbci.co.uk/onesport/cps/976/cpsprodpb/14108/production/_133248128_robertlewandowski.jpg', NULL, '2024-04-30 19:13:52', 33),
-('Una defensa desastrosa y el Madrid es campeón de La Liga', 'A 5 jornadas del final de la Liga, el Barcelona es goleado  en la visita al Girona', 'https://barcauniversal.com/wp-content/uploads/2024/05/fbl-esp-liga-girona-barcelona-6-2048x1365.jpg', NULL, '2024-05-04 21:10:41', 34);
+('Una defensa desastrosa y el Madrid es campeón de La Liga', 'A 5 jornadas del final de la Liga, el Barcelona es goleado  en la visita al Girona', 'https://barcauniversal.com/wp-content/uploads/2024/05/fbl-esp-liga-girona-barcelona-6-2048x1365.jpg', NULL, '2024-05-04 21:10:41', 34),
+('El Barcelona recupera el segundo puesto gracias al MVP Lamine Yamal', 'Nuevamente Lamine Yamal salvando al Barcelona de caer, el fue el anotador del primer tanto y consiguió un penalty donde Raphinha hizo lo suyo. Por otro lado la tensión sigue con el tema Victor Roque tras ciertas declaraciones del representante del jugador confirmando que es Xavi quién no ve a Roque dentro de su plan de juego. Gracias a todo ese drama lo que quedó opacado y vale la pensa resaltar es la dedicatoria de Raphinha hacia el estado Rio Grande do Sul y las víctimas de las inundaciones de su tierra natal.', 'https://www.mundodeportivo.com/us/files/image_948_465/uploads/2024/05/14/6643453eaff79.jpeg', NULL, '2024-05-15 04:56:29', 35);
